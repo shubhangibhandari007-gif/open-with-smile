@@ -142,9 +142,27 @@ no.addEventListener("click", () => {
 });
 
 yes.addEventListener("click", () => {
-    text.innerText = "You just made this old letter the happiest page ever 🤎✨";
-    yes.style.display="none";
-    no.style.display="none";
+    text.innerText = "I knew it 🤎✨\nLook at us… we really do look pretty perfect together.";
+
+    yes.style.display = "none";
+    no.style.display = "none";
+
+    // Create polaroid image
+    const img = document.createElement("img");
+    img.src = "us.jpg";   // your uploaded picture filename
+    img.style.width = "340px";
+    img.style.marginTop = "30px";
+    img.style.border = "15px solid white";
+    img.style.boxShadow = "0 10px 25px rgba(0,0,0,0.3)";
+    img.style.transform = "rotate(-3deg)";
+    img.style.opacity = "0";
+    img.style.transition = "opacity 2s ease";
+
+    document.querySelector(".container").appendChild(img);
+
+    setTimeout(() => {
+        img.style.opacity = "1";
+    }, 200);
 });
 </script>
 
