@@ -9,7 +9,7 @@
 <style>
 body{
     margin:0;
-    height:100vh;
+    min-height:100vh;
     display:flex;
     justify-content:center;
     align-items:center;
@@ -17,7 +17,7 @@ body{
     font-family:'Special Elite', cursive;
     color:#4a2c16;
     text-align:center;
-    overflow:hidden;
+    overflow:auto;
 }
 
 .container{
@@ -53,8 +53,23 @@ button{
 #yes{ background:#5c3b1e; color:white; display:none; }
 #no{ background:#8b5a2b; color:white; display:none; position:relative; }
 
-button:hover{ transform:scale(1.1); }
+button:hover{
+    transform:scale(1.1);
+}
 
+/* POLAROID PHOTO STYLE */
+.polaroid-photo{
+    width:340px !important;
+    max-width:90%;
+    height:auto;
+    display:block;
+    margin:30px auto 0;
+    border:15px solid white;
+    box-shadow:0 10px 25px rgba(0,0,0,0.3);
+    transform:rotate(-3deg);
+}
+
+/* fade animation */
 @keyframes fadeIn{
     from{opacity:0; transform:translateY(15px);}
     to{opacity:1; transform:translateY(0);}
@@ -82,7 +97,7 @@ const memories = [
 "Ravi… it actually took me a lot to build this little website.",
 "Ravi… I genuinely like you, more than I know how to say sometimes.",
 "Ravi… remember that magic trick you did? I couldn’t stop smiling after that.",
-"Ravi… I still remember our run in Bhimtal, it felt simple and perfect.",
+"Ravi… I still remember our run in Bhimtal — it felt simple and perfect.",
 "Ravi… you standing outside my office with flowers… that moment stayed with me.",
 "Ravi… you wearing those cute sweaters I got you looked ridiculously adorable.",
 "Ravi… and our dance on 'Tanna na na naah'… I still replay it in my head sometimes.",
@@ -111,7 +126,7 @@ nextBtn.onclick = () => {
     }
 };
 
-// playful NO game
+/* playful NO game */
 const noMessages = [
 "Are you sure Ravi? 🥺",
 "Think again… this old letter has feelings too.",
@@ -126,35 +141,30 @@ no.addEventListener("click", () => {
 
     text.innerText = noMessages[Math.min(noCount-1, noMessages.length-1)];
 
-    // Yes grows bigger
+    /* yes grows bigger */
     yes.style.transform = `scale(${1 + noCount*0.15})`;
 
-    // No moves slightly
+    /* no moves around */
     const x = Math.random()*200 - 100;
     const y = Math.random()*100 - 50;
     no.style.transform = `translate(${x}px, ${y}px) scale(${1 - noCount*0.08})`;
 
-    // hide No eventually
     if(noCount > 5){
         no.style.display="none";
         text.innerText = "Looks like your heart already knows the answer 🤎";
     }
 });
 
+/* YES ending + photo reveal */
 yes.addEventListener("click", () => {
     text.innerText = "I knew it 🤎✨\nLook at us… we really do look pretty perfect together.";
 
     yes.style.display = "none";
     no.style.display = "none";
 
-    // Create polaroid image
     const img = document.createElement("img");
-    img.src = "us.jpg";   // your uploaded picture filename
-    img.style.width = "340px";
-    img.style.marginTop = "30px";
-    img.style.border = "15px solid white";
-    img.style.boxShadow = "0 10px 25px rgba(0,0,0,0.3)";
-    img.style.transform = "rotate(-3deg)";
+    img.src = "us.jpg";   // your uploaded photo filename
+    img.className = "polaroid-photo";
     img.style.opacity = "0";
     img.style.transition = "opacity 2s ease";
 
