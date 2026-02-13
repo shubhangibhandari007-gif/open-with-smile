@@ -1,28 +1,152 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>A Letter For You</title>
+<title>For Ravi 🤎</title>
 
-<!-- Vintage Fonts -->
-<link href="https://fonts.googleapis.com/css2?family=Special+Elite&family=Dancing+Script:wght@500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600&family=Special+Elite&display=swap" rel="stylesheet">
 
 <style>
 body{
     margin:0;
-    padding:0;
     height:100vh;
     display:flex;
     justify-content:center;
     align-items:center;
-    background: url('https://www.transparenttextures.com/patterns/aged-paper.png');
-    background-color:#c9a66b;
-    font-family: 'Special Elite', cursive;
+    background:#c8a96a url('https://www.transparenttextures.com/patterns/aged-paper.png');
+    font-family:'Special Elite', cursive;
+    color:#4a2c16;
+    text-align:center;
     overflow:hidden;
 }
 
-/* Dark paper edges */
-body:before{
-    content:"";
-    position:absolute;
+.container{
+    max-width:700px;
+    padding:40px;
+}
+
+h1{
+    font-family:'Dancing Script', cursive;
+    font-size:3rem;
+    margin-bottom:20px;
+}
+
+#text{
+    font-size:1.3rem;
+    line-height:1.8;
+    min-height:90px;
+    margin-bottom:25px;
+    animation:fadeIn 1s ease;
+}
+
+button{
+    padding:12px 24px;
+    margin:10px;
+    border:none;
+    cursor:pointer;
+    font-size:1rem;
+    transition:.3s;
+}
+
+#next{ background:#5c3b1e; color:white; }
+
+#yes{ background:#5c3b1e; color:white; display:none; }
+#no{ background:#8b5a2b; color:white; display:none; position:relative; }
+
+button:hover{ transform:scale(1.1); }
+
+@keyframes fadeIn{
+    from{opacity:0; transform:translateY(15px);}
+    to{opacity:1; transform:translateY(0);}
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+    <h1>Ravi… 🤎</h1>
+
+    <div id="text"></div>
+
+    <button id="next">Continue ✨</button>
+
+    <div>
+        <button id="yes">Yes 🤍</button>
+        <button id="no">No 🙈</button>
+    </div>
+</div>
+
+<script>
+const memories = [
+"Ravi… it actually took me a lot to build this little website.",
+"Ravi… I genuinely like you, more than I know how to say sometimes.",
+"Ravi… remember that magic trick you did? I couldn’t stop smiling after that.",
+"Ravi… I still remember our run in Bhimtal — it felt simple and perfect.",
+"Ravi… you standing outside my office with flowers… that moment stayed with me.",
+"Ravi… you wearing those cute sweaters I got you looked ridiculously adorable.",
+"Ravi… and our dance on 'Tanna na na naah'… I still replay it in my head sometimes.",
+"Ravi… after all these little moments… I have one tiny question."
+];
+
+let index = 0;
+let noCount = 0;
+
+const text = document.getElementById("text");
+const nextBtn = document.getElementById("next");
+const yes = document.getElementById("yes");
+const no = document.getElementById("no");
+
+text.innerText = memories[0];
+
+nextBtn.onclick = () => {
+    index++;
+    if(index < memories.length){
+        text.innerText = memories[index];
+    } else {
+        text.innerText = "Ravi… will you be my Valentine? 🤍";
+        nextBtn.style.display="none";
+        yes.style.display="inline-block";
+        no.style.display="inline-block";
+    }
+};
+
+// playful NO game
+const noMessages = [
+"Are you sure Ravi? 🥺",
+"Think again… this old letter has feelings too.",
+"Okay but my heart already picked you.",
+"Ravi… don’t reject a handmade website 😭",
+"This 'No' button is getting nervous now 🙈",
+"Fine… I’m making this harder for you 😌"
+];
+
+no.addEventListener("click", () => {
+    noCount++;
+
+    text.innerText = noMessages[Math.min(noCount-1, noMessages.length-1)];
+
+    // Yes grows bigger
+    yes.style.transform = `scale(${1 + noCount*0.15})`;
+
+    // No moves slightly
+    const x = Math.random()*200 - 100;
+    const y = Math.random()*100 - 50;
+    no.style.transform = `translate(${x}px, ${y}px) scale(${1 - noCount*0.08})`;
+
+    // hide No eventually
+    if(noCount > 5){
+        no.style.display="none";
+        text.innerText = "Looks like your heart already knows the answer 🤎";
+    }
+});
+
+yes.addEventListener("click", () => {
+    text.innerText = "You just made this old letter the happiest page ever 🤎✨";
+    yes.style.display="none";
+    no.style.display="none";
+});
+</script>
+
+</body>
+</html>
