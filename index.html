@@ -13,66 +13,95 @@ body{
     display:flex;
     justify-content:center;
     align-items:center;
-    background:#c8a96a url('https://www.transparenttextures.com/patterns/aged-paper.png');
+    background: linear-gradient(135deg,#f9e7df,#f4d7d0,#eecfc8);
     font-family:'Special Elite', cursive;
-    color:#4a2c16;
-    text-align:center;
+    color:#4b2d2a;
     overflow:auto;
 }
 
+/* floating hearts (subtle) */
+body::before{
+    content:"";
+    position:fixed;
+    inset:0;
+    background:url("https://www.transparenttextures.com/patterns/paper-fibers.png");
+    opacity:.35;
+    pointer-events:none;
+}
+
 .container{
-    max-width:700px;
-    padding:40px;
+    width:min(850px,90%);
+    background:#fffaf4;
+    border-radius:18px;
+    padding:50px 40px;
+    box-shadow:0 20px 50px rgba(0,0,0,0.15);
+    text-align:center;
 }
 
 h1{
     font-family:'Dancing Script', cursive;
-    font-size:3rem;
-    margin-bottom:20px;
+    font-size:3.5rem;
+    color:#7a3e3a;
+    margin-bottom:15px;
 }
 
 #text{
-    font-size:1.3rem;
-    line-height:1.8;
+    font-size:1.25rem;
+    line-height:1.9;
     min-height:90px;
-    margin-bottom:25px;
-    animation:fadeIn 1s ease;
+    margin-bottom:30px;
+    color:#5b3832;
 }
 
+/* prettier button */
 button{
-    padding:12px 24px;
+    padding:13px 28px;
     margin:10px;
     border:none;
+    border-radius:30px;
     cursor:pointer;
     font-size:1rem;
     transition:.3s;
+    font-family:'Special Elite', cursive;
 }
 
-#next{ background:#5c3b1e; color:white; }
+#next{
+    background:linear-gradient(135deg,#ff8fa3,#ff6b81);
+    color:white;
+    box-shadow:0 6px 20px rgba(255,107,129,.4);
+}
 
-#yes{ background:#5c3b1e; color:white; display:none; }
-#no{ background:#8b5a2b; color:white; display:none; position:relative; }
+#yes{
+    background:linear-gradient(135deg,#ff8fa3,#ff6b81);
+    color:white;
+    display:none;
+}
+
+#no{
+    background:#f0d8d3;
+    color:#5b3832;
+    display:none;
+}
 
 button:hover{
-    transform:scale(1.1);
+    transform:translateY(-2px) scale(1.05);
 }
 
-/* POLAROID PHOTO STYLE */
+/* polaroid */
 .polaroid-photo{
-    width:340px !important;
+    width:280px;
     max-width:90%;
-    height:auto;
+    border:14px solid white;
+    box-shadow:0 12px 30px rgba(0,0,0,0.25);
+    margin:35px auto 0;
     display:block;
-    margin:30px auto 0;
-    border:15px solid white;
-    box-shadow:0 10px 25px rgba(0,0,0,0.3);
     transform:rotate(-3deg);
+    animation:dropIn .8s ease;
 }
 
-/* fade animation */
-@keyframes fadeIn{
-    from{opacity:0; transform:translateY(15px);}
-    to{opacity:1; transform:translateY(0);}
+@keyframes dropIn{
+    from{opacity:0; transform:translateY(-30px) rotate(-8deg);}
+    to{opacity:1; transform:translateY(0) rotate(-3deg);}
 }
 </style>
 </head>
@@ -81,7 +110,6 @@ button:hover{
 
 <div class="container">
     <h1>Ravi… 🤎</h1>
-
     <div id="text"></div>
 
     <button id="next">Continue ✨</button>
@@ -108,72 +136,54 @@ let index = 0;
 let noCount = 0;
 
 const text = document.getElementById("text");
-const nextBtn = document.getElementById("next");
+const next = document.getElementById("next");
 const yes = document.getElementById("yes");
 const no = document.getElementById("no");
 
 text.innerText = memories[0];
 
-nextBtn.onclick = () => {
+next.onclick = () => {
     index++;
     if(index < memories.length){
         text.innerText = memories[index];
     } else {
         text.innerText = "Ravi… will you be my Valentine? 🤍";
-        nextBtn.style.display="none";
+        next.style.display="none";
         yes.style.display="inline-block";
         no.style.display="inline-block";
     }
 };
 
-/* playful NO game */
 const noMessages = [
 "Are you sure Ravi? 🥺",
-"Think again… this old letter has feelings too.",
+"Think again… this letter has feelings too.",
 "Okay but my heart already picked you.",
-"Ravi… don’t reject a handmade website 😭",
-"This 'No' button is getting nervous now 🙈",
-"Fine… I’m making this harder for you 😌"
+"This 'No' button feels nervous now 🙈"
 ];
 
-no.addEventListener("click", () => {
+no.onclick = () => {
     noCount++;
+    text.innerText = noMessages[Math.min(noCount-1,3)];
 
-    text.innerText = noMessages[Math.min(noCount-1, noMessages.length-1)];
-
-    /* yes grows bigger */
     yes.style.transform = `scale(${1 + noCount*0.15})`;
 
-    /* no moves around */
-    const x = Math.random()*200 - 100;
-    const y = Math.random()*100 - 50;
-    no.style.transform = `translate(${x}px, ${y}px) scale(${1 - noCount*0.08})`;
-
-    if(noCount > 5){
+    if(noCount > 4){
         no.style.display="none";
-        text.innerText = "Looks like your heart already knows the answer 🤎";
+        text.innerText = "Looks like your heart already knows 🤎";
     }
-});
+};
 
-/* YES ending + photo reveal */
-yes.addEventListener("click", () => {
+yes.onclick = () => {
     text.innerText = "I knew it 🤎✨\nLook at us… we really do look pretty perfect together.";
 
-    yes.style.display = "none";
-    no.style.display = "none";
+    yes.style.display="none";
+    no.style.display="none";
 
     const img = document.createElement("img");
-    img.src = "us.jpg";   // your uploaded photo filename
+    img.src = "us.jpg";
     img.className = "polaroid-photo";
-    img.style.opacity = "0";
-    img.style.transition = "opacity 2s ease";
-
     document.querySelector(".container").appendChild(img);
-
-    setTimeout(() => {
-        img.style.opacity = "1";
-    }, 200);
-});
+};
 </script>
 
 </body>
