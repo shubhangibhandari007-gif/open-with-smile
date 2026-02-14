@@ -9,20 +9,21 @@
 <style>
 body{
 margin:0;
-min-height:100vh;
-display:flex;
-justify-content:center;
-align-items:center;
 font-family:'Baloo 2',cursive;
 background:#f7f1f4;
-overflow:hidden;
+overflow-x:hidden;
 }
 
 /* floating hearts */
-#hearts{position:fixed;inset:0;pointer-events:none;}
+#hearts{
+position:fixed;
+inset:0;
+pointer-events:none;
+z-index:-1;
+}
 .heart{
 position:absolute;
-opacity:.18;
+opacity:.15;
 animation:float 10s linear forwards;
 }
 @keyframes float{
@@ -30,41 +31,31 @@ from{transform:translateY(100vh);}
 to{transform:translateY(-10vh);opacity:0;}
 }
 
-/* scrapbook card */
+/* main card */
 .container{
-width:min(1050px,95%);
-max-height:90vh;
-overflow:auto;
+width:min(1000px,92%);
+margin:30px auto;
 background:#fff8f3;
 border-radius:22px;
-padding:34px 50px;
+padding:28px 28px 40px;
 box-shadow:0 20px 45px rgba(0,0,0,.12);
 text-align:center;
 position:relative;
 }
-.container::before{
-content:"";
-position:absolute;
-inset:-12px;
-background:#ffeef4;
-border-radius:24px;
-transform:rotate(-1deg);
-z-index:-1;
-}
 
 h1{
 font-family:'Dancing Script',cursive;
-font-size:4rem;
+font-size:3.8rem;
 color:#b03a5b;
-margin:0 0 12px;
+margin:0 0 10px;
 }
 
 #text{
-max-width:760px;
-margin:0 auto 20px;
-font-size:1.38rem;
-line-height:1.75;
+font-size:1.35rem;
+line-height:1.7;
 white-space:pre-line;
+margin:0 auto 22px;
+max-width:760px;
 }
 
 .memory-note{
@@ -79,10 +70,10 @@ padding:12px 20px;
 margin:8px;
 border:none;
 border-radius:10px;
+cursor:pointer;
+font-size:1.05rem;
 background:#ffe0ea;
 color:#5b2e2e;
-font-size:1.05rem;
-cursor:pointer;
 transition:.25s;
 }
 button:hover{transform:translateY(-3px);}
@@ -99,16 +90,17 @@ from{transform:translateY(-40px) rotate(-8deg);opacity:0;}
 to{transform:translateY(0) rotate(-3deg);opacity:1;}
 }
 
-/* MOBILE FRIENDLY */
-@media (max-width:768px){
+/* MOBILE */
+@media(max-width:768px){
 .container{
-padding:24px 18px;
-max-height:95vh;
+margin:12px auto;
+padding:20px 14px 28px;
 }
-h1{font-size:2.8rem;}
-#text{font-size:1.15rem;line-height:1.6;}
+h1{font-size:2.6rem;}
+#text{font-size:1.15rem;line-height:1.55;}
+button{font-size:1rem;padding:10px 16px;}
 .final-photo{width:220px !important;}
-.final-line{font-size:1.6rem !important;line-height:1.4;}
+.final-line{font-size:1.6rem !important;}
 }
 </style>
 </head>
@@ -143,7 +135,7 @@ setTimeout(()=>h.remove(),10000);
 let musicStarted=false;
 function startMusicOnce(){
 if(!musicStarted){
-const m=document.getElementById("bgMusic");
+let m=document.getElementById("bgMusic");
 m.volume=0.10;
 m.play();
 musicStarted=true;
@@ -155,13 +147,13 @@ const memories=[
 "I genuinely like you, more than I know how to say sometimes.",
 "Remember that magic trick you did?\nI couldn’t stop smiling after that.",
 "I still remember our run in Bhimtal.\nIt felt simple and perfect.",
-"You standing outside my office with flowers.\nThat way you looked at me stayed with me.",
-"You wearing those cute sweaters I got you,\nlooked ridiculously adorable.",
-"And our dance on Tanna na na naah…\nI still replay that moment in my head sometimes.",
+"You standing outside my office with flowers.\nThat moment stayed with me.",
+"You wearing those cute sweaters I got you.\nStill adorable.",
+"Our dance on Tanna na na naah…\nI still replay it in my head sometimes.",
 "After all these little moments,\nI have one tiny question."
 ];
 
-let i=0;
+let i=0,noCount=0;
 const text=document.getElementById("text");
 const buttons=document.getElementById("buttons");
 
@@ -176,31 +168,109 @@ i++;
 i<memories.length?showMemory():question();
 }
 
+/* question */
 function question(){
 text.className="";
 text.innerText="So… will you be my Valentine? 💖";
 buttons.innerHTML=`
-<button class="primary" onclick="yes()">Yes 🤍</button>
-<button onclick="question()">No 🙈</button>
+<button id="yesBtn" class="primary" onclick="yes()">Yes 🤍</button>
+<button id="noBtn" onclick="noGame()">No 🙈</button>
+<button onclick="hintSlide()">I need a hint 👀</button>
+<button onclick="thinkSlide()">Can I think about it? 🤔</button>
+<button onclick="rewardSlide()">Depends… what do I get? 😏</button>
+<button onclick="trapSlide()">This feels like a trap 😄</button>
 <button onclick="replay()">Replay memories 🧸</button>`;
 }
 
-function replay(){
-i=0;
-showMemory();
+/* NO game restored */
+const noMsgs=[
+"Are you sure? 🥺",
+"This letter has feelings too…",
+"Okay but my heart already picked you.",
+"This No button is feeling shy now 🙈"
+];
+function noGame(){
+noCount++;
+text.innerText=noMsgs[Math.min(noCount-1,noMsgs.length-1)];
+let yes=document.getElementById("yesBtn");
+let no=document.getElementById("noBtn");
+yes.style.transform=`scale(${1+noCount*0.15})`;
+no.style.transform=`scale(${1-noCount*0.15})`;
+if(noCount>4) no.style.display="none";
 }
 
-/* YES ENDING */
-function yes(){
+function trapSlide(){
+text.innerText="It is.\nA very cute emotional trap 😌💌";
+buttons.innerHTML=`<button class="primary" onclick="question()">Back 💌</button>`;
+}
 
+function rewardSlide(){
+text.innerText=`You get...
+
+A lifetime subscription to chaos, laughs and cuteness 😄
+
+Baby talks, random runs, fun activities,
+creative little surprises, and basketball matches.
+
+Warm hugs, late-night cuddles,
+someone who feeds you food,
+and always saves you the last bite.
+
+Someone who keeps showing effort,
+tries to make you smile,
+and chooses you again and again 🤍`;
+buttons.innerHTML=`<button class="primary" onclick="question()">Back 💌</button>`;
+}
+
+function hintSlide(){
+text.innerText=`Hint? 👀
+
+If someone makes a whole little website
+just to make you smile...
+
+that’s probably the biggest hint already 🤍`;
+buttons.innerHTML=`<button class="primary" onclick="question()">Back 💌</button>`;
+}
+
+function thinkSlide(){
+text.innerText=`Of course, baby… take your time.
+
+But while you think…
+
+you probably won’t find
+this kind of crazy girl anywhere else 😄
+
+Soch lo… 🥺`;
+buttons.innerHTML=`
+<button onclick="dontWant()">I don’t want to 🙈</button>
+<button class="primary" onclick="wantYou()">I want you 🤍</button>`;
+}
+
+function wantYou(){
+text.innerText="Yaaay 😄💖\nNow go back and click YES 🤍";
+buttons.innerHTML=`<button class="primary" onclick="question()">Take me there ✨</button>`;
+}
+
+function dontWant(){
+text.innerText=`Hmm… that option feels unfair 😌
+
+Maybe give the “I want you 🤍”
+button another look?`;
+buttons.innerHTML=`<button class="primary" onclick="thinkSlide()">Okay okay… back 💌</button>`;
+}
+
+function replay(){i=0;showMemory();}
+
+/* YES ending */
+function yes(){
 text.innerText="I knew it… you were always going to choose yes 😌🤍";
 buttons.innerHTML="";
 
-const bg=document.getElementById("bgMusic");
-const lyrics=document.getElementById("yesMusic");
+let bg=document.getElementById("bgMusic");
+let lyrics=document.getElementById("yesMusic");
 
 let fade=setInterval(()=>{
-if(bg.volume>0.05){bg.volume-=0.015;}
+if(bg.volume>0.05) bg.volume-=0.015;
 else{
 clearInterval(fade);
 bg.pause();
@@ -213,29 +283,19 @@ showFinal();
 
 function showFinal(){
 
-const wrap=document.createElement("div");
-wrap.innerHTML=`<img src="us.jpg" class="final-photo"
-style="width:300px;border:12px solid white;
-box-shadow:0 12px 25px rgba(0,0,0,.25);
-transform:rotate(-3deg);border-radius:4px;
-animation:dropIn .7s ease;">`;
-document.querySelector(".container").appendChild(wrap);
-
-/* mobile auto-scroll */
-setTimeout(()=>{
-document.querySelector(".container")
-.scrollTo({top:document.querySelector(".container").scrollHeight,behavior:"smooth"});
-},300);
-
-/* vibration */
 if(navigator.vibrate) navigator.vibrate(40);
 
-/* handwritten */
+const photo=document.createElement("img");
+photo.src="us.jpg";
+photo.className="final-photo";
+photo.style.cssText="width:300px;border:12px solid white;box-shadow:0 12px 25px rgba(0,0,0,.25);border-radius:4px;transform:rotate(-3deg);animation:dropIn .7s ease;";
+document.querySelector(".container").appendChild(photo);
+
 setTimeout(()=>{
 const line=document.createElement("div");
 line.className="fadeIn final-line";
 line.style.fontFamily="'Dancing Script',cursive";
-line.style.fontSize="2.2rem";
+line.style.fontSize="2.1rem";
 line.style.marginTop="16px";
 line.style.color="#8a3b5d";
 line.innerText="From now on, let’s choose each other, and keep choosing, every day.";
@@ -243,8 +303,8 @@ document.querySelector(".container").appendChild(line);
 
 const extra=document.createElement("div");
 extra.className="fadeIn";
-extra.style.marginTop="18px";
 extra.style.whiteSpace="pre-line";
+extra.style.marginTop="18px";
 extra.innerText=`Little things you do that stay with me…
 
 I love the way you hold my hand while driving.
@@ -254,7 +314,6 @@ The way you feed me feels like love in its simplest form.
 Your worn jackets feel like hugs from you, even when you’re far away.
 When you’re around, time runs too fast.
 When you’re away, it feels the longest.`;
-
 document.querySelector(".container").appendChild(extra);
 
 const sign=document.createElement("div");
@@ -265,8 +324,9 @@ sign.style.whiteSpace="pre-line";
 sign.innerText=`Beba, I like you 🐵
 I just wanted to make you smile.
 Made with love, by Potato 🤍`;
-
 document.querySelector(".container").appendChild(sign);
+
+window.scrollTo({top:document.body.scrollHeight,behavior:"smooth"});
 
 },1200);
 }
