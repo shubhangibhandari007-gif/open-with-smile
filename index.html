@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <title>For Ravi 💖</title>
 
-<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500&family=Dancing+Script:wght@600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500&family=Dancing+Script:wght@700&display=swap" rel="stylesheet">
 
 <style>
 body{
@@ -13,159 +13,158 @@ body{
     display:flex;
     justify-content:center;
     align-items:center;
-    overflow:hidden;
     font-family:'Baloo 2', cursive;
-    background:linear-gradient(-45deg,#ffe7ee,#fff3f6,#fff8fa,#ffe9f0);
-    background-size:400% 400%;
-    animation:bgMove 18s ease infinite;
-}
-@keyframes bgMove{
-    0%{background-position:0% 50%;}
-    50%{background-position:100% 50%;}
-    100%{background-position:0% 50%;}
-}
-
-/* doodle hearts */
-#hearts{position:fixed;inset:0;pointer-events:none;}
-.doodle{
-    position:absolute;
-    width:20px;height:20px;
-    border:2px solid #ff6b8a;
-    border-top:none;border-right:none;
-    transform:rotate(-45deg);
-    opacity:.35;
-    animation:float 12s linear forwards;
-}
-.doodle::before,.doodle::after{
-    content:"";
-    position:absolute;
-    width:20px;height:20px;
-    border:2px solid #ff6b8a;
-    border-radius:50%;
-}
-.doodle::before{top:-10px;left:0;}
-.doodle::after{left:10px;top:0;}
-@keyframes float{
-    from{transform:translateY(100vh) rotate(-45deg);}
-    to{transform:translateY(-10vh) rotate(-45deg);opacity:0;}
+    background:#f7f1f4;
+    background-image:radial-gradient(rgba(255,255,255,.45) 1px, transparent 1px);
+    background-size:20px 20px;
 }
 
 /* scrapbook card */
 .container{
-    width:min(860px,92%);
-    background:#fffaf5;
+    width:min(1050px,95%);
+    background:#fff8f3;
     border-radius:22px;
-    padding:30px 38px;
-    box-shadow:0 16px 35px rgba(0,0,0,.12);
-    text-align:center;
+    padding:38px 50px;
+    box-shadow:0 20px 45px rgba(0,0,0,.12);
     position:relative;
-    z-index:2;
+    text-align:center;
+    animation:cardIn .7s ease-out;
 }
+@keyframes cardIn{
+    from{opacity:0;transform:translateY(18px) scale(.98);}
+    to{opacity:1;transform:translateY(0) scale(1);}
+}
+
+/* layered paper */
 .container::before{
     content:"";
     position:absolute;
-    inset:-10px;
-    background:#fff2f6;
+    inset:-12px;
+    background:#ffeef4;
     border-radius:24px;
-    z-index:-1;
     transform:rotate(-1deg);
+    z-index:-1;
 }
 
+/* title */
 h1{
     font-family:'Dancing Script', cursive;
-    font-size:3.4rem;
+    font-size:4rem;
     color:#b03a5b;
-    margin-bottom:8px;
+    margin:0 0 10px;
+    transform:rotate(-1deg);
+    animation:titleFloat 3s ease-in-out infinite alternate;
+}
+@keyframes titleFloat{
+    from{transform:rotate(-1deg) translateY(0);}
+    to{transform:rotate(-1deg) translateY(-3px);}
 }
 
+/* text area */
 #text{
     margin:0 auto 16px;
     min-height:70px;
+    max-width:760px;
 }
 
-/* memory notes */
+/* scrapbook memory note */
 .memory-note{
-    background:#fffdf8;
+    background:#fffdf9;
     border:2px dashed #ffd0dc;
-    padding:18px 20px;
-    border-radius:12px;
-    max-width:650px;
-    box-shadow:0 6px 12px rgba(0,0,0,.08);
-    font-size:1.25rem;
+    padding:22px;
+    border-radius:14px;
+    font-size:1.35rem;
     line-height:1.8;
     color:#5b2e2e;
-    transition:.3s;
+    box-shadow:0 8px 16px rgba(0,0,0,.08);
 }
 
-/* buttons */
+/* sticker buttons */
 button{
     padding:12px 20px;
-    margin:6px;
+    margin:8px;
     border:none;
-    border-radius:25px;
+    border-radius:10px;
+    background:#ffe0ea;
+    color:#5b2e2e;
+    font-size:1.05rem;
     cursor:pointer;
-    font-size:1rem;
+    box-shadow:0 6px 10px rgba(0,0,0,.08);
+    transform:rotate(-1deg);
     transition:.25s;
 }
-button:hover{transform:translateY(-2px) scale(1.05);}
-.primary{background:#ff5f7a;color:white;}
-.soft{background:#ffdbe5;color:#5b2e2e;}
+button:hover{
+    transform:translateY(-3px) rotate(1deg);
+}
+button:active{transform:scale(.97);}
 
-.pulse{animation:pulseBtn 1.4s ease-in-out infinite;}
-@keyframes pulseBtn{
+.primary{
+    background:#ff5f7a;
+    color:white;
+}
+
+/* pulse UX secret */
+.pulse{
+    animation:pulse 1.4s ease infinite;
+}
+@keyframes pulse{
     0%{transform:scale(1);}
     50%{transform:scale(1.08);}
     100%{transform:scale(1);}
 }
 
 /* polaroid */
-.polaroid-wrap{display:inline-block;position:relative;margin-top:20px;}
+.polaroid-wrap{
+    display:inline-block;
+    margin-top:20px;
+    position:relative;
+}
 .tape{
-    width:90px;height:20px;
-    background:rgba(255,255,255,.7);
-    position:absolute;top:-12px;left:50%;
-    transform:translateX(-50%) rotate(-2deg);
+    width:90px;
+    height:20px;
+    background:rgba(255,255,255,.8);
+    position:absolute;
+    top:-12px;
+    left:50%;
+    transform:translateX(-50%) rotate(-3deg);
 }
 .polaroid{
-    width:280px;border:12px solid white;
-    box-shadow:0 10px 25px rgba(0,0,0,.25);
+    width:300px;
+    border:12px solid white;
+    box-shadow:0 12px 25px rgba(0,0,0,.25);
     transform:rotate(-3deg);
 }
 
-/* final line */
+/* ending */
 .final-line{
     font-family:'Dancing Script', cursive;
-    font-size:2rem;
+    font-size:2.2rem;
     color:#8a3b5d;
     margin-top:16px;
-    opacity:0;
-    animation:fadeLine 1.4s ease forwards;
+    animation:fadeIn 1.3s ease forwards;
 }
 .signature{
-    margin-top:8px;
-    font-size:1rem;
+    margin-top:10px;
     color:#b07a8f;
-    opacity:0;
-    animation:fadeLine 1.4s ease forwards;
-    animation-delay:.5s;
+    line-height:1.7;
+    white-space:pre-line;
+    animation:fadeIn 1.3s ease forwards;
 }
-@keyframes fadeLine{
+@keyframes fadeIn{
     from{opacity:0;transform:translateY(8px);}
     to{opacity:1;transform:translateY(0);}
 }
 
-/* memory fade */
+/* emotional fade */
 .memory-fade{
     opacity:.25;
-    transform:scale(.96);
-    transition:all .8s ease;
+    transform:scale(.97);
+    transition:.8s;
 }
 </style>
 </head>
 
 <body>
-
-<div id="hearts"></div>
 
 <div class="container">
 <h1>Ravi… 💖</h1>
@@ -176,14 +175,6 @@ button:hover{transform:translateY(-2px) scale(1.05);}
 <audio id="music" src="music.mp3"></audio>
 
 <script>
-setInterval(()=>{
- const h=document.createElement("div");
- h.className="doodle";
- h.style.left=Math.random()*100+"vw";
- document.getElementById("hearts").appendChild(h);
- setTimeout(()=>h.remove(),13000);
-},900);
-
 const memories=[
 "Beba… it actually took me a lot to build this little website.",
 "I genuinely like you, more than I know how to say sometimes.",
@@ -195,7 +186,7 @@ const memories=[
 "After all these little moments, I have one tiny question."
 ];
 
-let i=0,noCount=0;
+let i=0;
 const text=document.getElementById("text");
 const buttons=document.getElementById("buttons");
 
@@ -210,54 +201,68 @@ function question(){
 text.className="";
 text.style.fontSize="1.35rem";
 text.innerText="So… will you be my Valentine? 💖";
-buttons.innerHTML=`<button class="primary" onclick="yes()">Yes 🤍</button>
-<button class="soft" onclick="no()">No 🙈</button>
-<button class="soft" onclick="replay()">Replay memories 🧸</button>`;
+buttons.innerHTML=`
+<button class="primary" onclick="yes()">Yes 🤍</button>
+<button onclick="no()">No 🙈</button>
+<button onclick="hint()">I need a hint 👀</button>
+<button onclick="think()">Can I think about it? 🤔</button>
+<button onclick="reward()">Depends… what do I get? 😏</button>
+<button onclick="trap()">This feels like a trap 😄</button>
+<button onclick="replay()">Replay memories 🧸</button>`;
 }
 
 function replay(){
-text.className="";
-text.style.fontSize="1.2rem";
-text.innerText="💭 Our little memories…\n\n• It took me a lot to build this website.\n• That magic trick you did.\n• Our Bhimtal run.\n• Flowers outside my office.\n• Cute sweaters.\n• Our dance.\n\nSome moments just feel like us 🤍";
+text.innerText=`💭 Our little memories…
+
+• It took me a lot to build this website.
+• The magic trick you did.
+• Our Bhimtal run.
+• Flowers outside my office.
+• Cute sweaters.
+• Our dance.
+
+Some moments just feel like us 🤍`;
 buttons.innerHTML=`<button class="primary" onclick="question()">Back to the question 💌</button>`;
 }
 
-function no(){
-text.innerText="This option feels invalid 😌 You have to choose me 🥺";
+function hint(){text.innerText="Hint? Think Bhimtal runs, magic tricks, cozy sweaters and flowers outside my office 🤍";}
+function reward(){text.innerText="Chaos, laughs, cuddles, last bites, creative surprises and someone who keeps showing up 🤍";}
+function trap(){text.innerText="It is. A very cute emotional trap 😌💌";}
+function no(){text.innerText="This option feels invalid 😌 You kinda have to choose me 🥺";}
+
+function think(){
+text.innerText="Of course, baby… take your time. But while you think, you probably won’t find this kind of crazy girl anywhere else 😄 Soch lo… 🥺";
+buttons.innerHTML=`
+<button onclick="dontWant()">I don’t want to 🙈</button>
+<button class="primary pulse" onclick="question()">I want you 🤍</button>`;
+}
+function dontWant(){
+text.innerText="Hmm… that option feels unfair 😌 I really want us to try, slowly and honestly, together 🥺 Maybe give the “I want you 🤍” button another look… just saying 🥺";
+buttons.innerHTML=`<button class="primary" onclick="question()">Okay okay… back 💌</button>`;
 }
 
 function yes(){
 text.innerText="I knew it… you were always going to choose yes 😌🤍";
 buttons.innerHTML="";
-document.getElementById("music").play();
-
 text.classList.add("memory-fade");
+document.getElementById("music").play();
 
 setTimeout(()=>{
 const wrap=document.createElement("div");
 wrap.className="polaroid-wrap";
-
-const tape=document.createElement("div");
-tape.className="tape";
-
-const img=document.createElement("img");
-img.src="us.jpg";
-img.className="polaroid";
-
-wrap.appendChild(tape);
-wrap.appendChild(img);
+wrap.innerHTML=`<div class="tape"></div><img src="us.jpg" class="polaroid">`;
 document.querySelector(".container").appendChild(wrap);
 
 setTimeout(()=>{
- const line=document.createElement("div");
- line.className="final-line";
- line.innerText="From now on, let’s choose each other, and keep choosing, every day.";
- document.querySelector(".container").appendChild(line);
+const line=document.createElement("div");
+line.className="final-line";
+line.innerText="From now on, let’s choose each other, and keep choosing, every day.";
+document.querySelector(".container").appendChild(line);
 
- const sign=document.createElement("div");
- sign.className="signature";
- sign.innerText="made with love, by Potato 🤍";
- document.querySelector(".container").appendChild(sign);
+const sign=document.createElement("div");
+sign.className="signature";
+sign.innerText="Beba, I like you 🐵\nI just wanted to make you smile.\nMade with love, by Potato 🤍";
+document.querySelector(".container").appendChild(sign);
 },2000);
 
 },400);
