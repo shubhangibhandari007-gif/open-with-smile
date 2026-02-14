@@ -25,18 +25,28 @@ body{
     100%{background-position:0% 50%;}
 }
 
-.hearts{position:fixed;inset:0;pointer-events:none;}
-.heart{position:absolute;animation:float 10s linear infinite;opacity:.5;}
+/* floating hearts */
+#hearts{
+    position:fixed;
+    inset:0;
+    pointer-events:none;
+}
+.heart{
+    position:absolute;
+    opacity:.5;
+    animation:float 10s linear forwards;
+}
 @keyframes float{
     from{transform:translateY(100vh);}
     to{transform:translateY(-10vh);opacity:0;}
 }
 
+/* card */
 .container{
     width:min(900px,92%);
     background:#fff8f2;
-    padding:40px;
     border-radius:20px;
+    padding:32px 40px;
     box-shadow:0 15px 40px rgba(0,0,0,.12);
     text-align:center;
     position:relative;
@@ -44,9 +54,9 @@ body{
 }
 .container::before,
 .container::after{
-    content:"💗";
+    content:"❤️";
     position:absolute;
-    font-size:24px;
+    font-size:22px;
 }
 .container::before{top:15px;left:20px;}
 .container::after{bottom:15px;right:20px;}
@@ -55,19 +65,22 @@ h1{
     font-family:'Dancing Script', cursive;
     font-size:3.5rem;
     color:#b03a5b;
-    margin-bottom:15px;
-}
-#text{
-    font-size:1.2rem;
-    color:#5b2e2e;
-    line-height:1.8;
-    min-height:90px;
-    margin-bottom:20px;
+    margin-bottom:10px;
 }
 
+#text{
+    font-size:1.35rem;
+    line-height:1.9;
+    max-width:700px;
+    margin:0 auto 18px;
+    color:#5b2e2e;
+    min-height:70px;
+}
+
+/* buttons */
 button{
     padding:12px 20px;
-    margin:8px;
+    margin:6px;
     border:none;
     border-radius:25px;
     cursor:pointer;
@@ -75,10 +88,11 @@ button{
     font-family:'Baloo 2', cursive;
     transition:.25s;
 }
-button:hover{transform:scale(1.08);}
-
+button:hover{
+    transform:scale(1.08) rotate(-1deg);
+}
 .primary{
-    background:#ff6b8a;
+    background:#ff5f7a;
     color:white;
 }
 .soft{
@@ -88,44 +102,46 @@ button:hover{transform:scale(1.08);}
 
 /* polaroid */
 .polaroid-wrap{
-    position:relative;
     display:inline-block;
-    margin-top:30px;
+    position:relative;
+    margin-top:20px;
+}
+.tape{
+    width:90px;
+    height:20px;
+    background:rgba(255,255,255,.7);
+    position:absolute;
+    top:-12px;
+    left:50%;
+    transform:translateX(-50%) rotate(-2deg);
+    border-radius:4px;
 }
 .polaroid{
     width:280px;
     border:12px solid white;
     box-shadow:0 10px 25px rgba(0,0,0,.25);
     transform:rotate(-3deg);
-    animation:drop .8s ease;
-}
-.polaroid-wrap::before{
-    content:"";
-    position:absolute;
-    top:-15px;
-    left:50%;
-    transform:translateX(-50%) rotate(-2deg);
-    width:90px;
-    height:20px;
-    background:rgba(255,255,255,.7);
-}
-@keyframes drop{
-    from{opacity:0;transform:translateY(-20px) rotate(-8deg);}
-    to{opacity:1;transform:translateY(0) rotate(-3deg);}
 }
 
+/* final line */
 .final-line{
     font-family:'Dancing Script', cursive;
     font-size:2rem;
-    margin-top:20px;
     color:#8a3b5d;
+    margin-top:16px;
+    opacity:0;
+    animation:fadeLine 1.4s ease forwards;
+}
+@keyframes fadeLine{
+    from{opacity:0; transform:translateY(8px);}
+    to{opacity:1; transform:translateY(0);}
 }
 </style>
 </head>
 
 <body>
 
-<div class="hearts" id="hearts"></div>
+<div id="hearts"></div>
 
 <div class="container">
     <h1>Ravi… 🤎</h1>
@@ -138,25 +154,25 @@ button:hover{transform:scale(1.08);}
 <script>
 /* floating hearts */
 setInterval(()=>{
-    let h=document.createElement("div");
+    const h=document.createElement("div");
     h.className="heart";
     h.innerHTML="💞";
     h.style.left=Math.random()*100+"vw";
-    h.style.fontSize=(14+Math.random()*20)+"px";
+    h.style.fontSize=(14+Math.random()*18)+"px";
     h.style.animationDuration=(7+Math.random()*5)+"s";
     document.getElementById("hearts").appendChild(h);
     setTimeout(()=>h.remove(),12000);
 },800);
 
 const memories=[
-"Ravi… it actually took me a lot to build this little website.",
-"Ravi… I genuinely like you, more than I know how to say sometimes.",
-"Ravi… remember that magic trick you did? I couldn’t stop smiling after that.",
-"Ravi… I still remember our run in Bhimtal — it felt simple and perfect.",
-"Ravi… you standing outside my office with flowers… that moment stayed with me.",
-"Ravi… you wearing those cute sweaters I got you looked ridiculously adorable.",
-"Ravi… and our dance on 'Tanna na na naah'… I still replay it in my head sometimes.",
-"Ravi… after all these little moments… I have one tiny question."
+"Beba… it actually took me a lot to build this little website.",
+"I genuinely like you, more than I know how to say sometimes.",
+"Cutiepie, remember that magic trick you did? I couldn’t stop smiling after that.",
+"I still remember our run in Bhimtal, it felt simple and perfect.",
+"You standing outside my office with flowers, that moment stayed with me.",
+"Sweetie, you wearing those cute sweaters I got you looked ridiculously adorable.",
+"And our dance on Tanna na na naah, I still replay it in my head sometimes.",
+"After all these little moments, I have one tiny question."
 ];
 
 let i=0,noCount=0,playful=0;
@@ -164,21 +180,38 @@ const text=document.getElementById("text");
 const buttons=document.getElementById("buttons");
 
 function showMemory(){
-text.innerText=memories[i];
-buttons.innerHTML=`<button class="primary" onclick="next()">Continue ✨</button>`;
+    text.innerText=memories[i];
+    buttons.innerHTML=`<button class="primary" onclick="next()">Continue ✨</button>`;
 }
 function next(){ i++; i<memories.length?showMemory():question(); }
 
 function question(){
-text.innerText="Ravi… will you be my Valentine? 💖";
+text.innerText="So… will you be my Valentine? 💖";
 buttons.innerHTML=`
 <button class="primary" onclick="yes()">Yes 🤍</button>
 <button class="soft" onclick="no()" id="noBtn">No 🙈</button>
-<button class="soft" onclick="reward('Hint: think Bhimtal runs, magic tricks, cozy sweaters, and flowers outside my office 🤍')">I need a hint 👀</button>
-<button class="soft" onclick="reward('Okay… take your time. But you probably won’t find this kind of crazy anywhere else 😄')">Can I think about it? 🤔</button>
-<button class="soft" onclick="reward('You get chaos, laughs, baby talks, cuddles, last bites saved for you, creative surprises, and endless effort 🤍')">Depends… what do I get? 😏</button>
+<button class="soft" onclick="reward('Hint? Think Bhimtal runs, magic tricks, cozy sweaters, and flowers outside my office. Your answer might already be hidden there 🤍')">I need a hint 👀</button>
+<button class="soft" onclick="think()">Can I think about it? 🤔</button>
+<button class="soft" onclick="reward('You get chaos, laughs, cuteness, baby talks, random runs, creative adventures, basketball matches, warm hugs, late night cuddles, saved last bites, and someone who keeps showing up with effort every day 🤍')">Depends… what do I get? 😏</button>
 <button class="soft" onclick="reward('It is. A very cute emotional trap 😌💌')">This feels like a trap 😄</button>
 <button class="soft" onclick="replay()">Replay memories 🧸</button>`;
+}
+
+function think(){
+text.innerText="Of course, baby… take your time.\nBut while you think, you probably won’t find this kind of crazy girl anywhere else 😄\nSoch lo… 🥺";
+buttons.innerHTML=`
+<button class="soft" onclick="dontWant()">I don’t want to 🙈</button>
+<button class="primary" onclick="wantYou()">I want you 🤍</button>`;
+}
+
+function dontWant(){
+text.innerText="Hmm… that option feels unfair 😌\nI really want us to try, slowly and honestly, together 🥺\nMaybe give the I want you option another look?";
+buttons.innerHTML=`<button class="primary" onclick="question()">Okay okay… back 💌</button>`;
+}
+
+function wantYou(){
+text.innerText="Yeah… that sounds right 😌🤍";
+buttons.innerHTML=`<button class="primary" onclick="question()">Back to options 💖</button>`;
 }
 
 function reward(msg){
@@ -196,28 +229,35 @@ function no(){
 noCount++;
 const msgs=["Are you sure? 🥺","This letter has feelings too…","Okay but my heart already picked you.","This No button is feeling shy now 🙈"];
 text.innerText=msgs[Math.min(noCount-1,3)];
-document.getElementById("noBtn").style.transform=`translate(${Math.random()*120-60}px,${Math.random()*50-25}px)`;
+document.getElementById("noBtn").style.transform=`translate(${Math.random()*100-50}px,${Math.random()*30-15}px)`;
 }
 
 function yes(){
-text.innerText="I knew it 🤍✨";
+text.innerText="I knew it… you were always going to choose yes 😌🤍";
 buttons.innerHTML="";
 document.getElementById("music").play();
 
-let wrap=document.createElement("div");
+const wrap=document.createElement("div");
 wrap.className="polaroid-wrap";
 
-let img=document.createElement("img");
+const tape=document.createElement("div");
+tape.className="tape";
+
+const img=document.createElement("img");
 img.src="us.jpg";
 img.className="polaroid";
 
+wrap.appendChild(tape);
 wrap.appendChild(img);
 document.querySelector(".container").appendChild(wrap);
 
-let line=document.createElement("div");
-line.className="final-line";
-line.innerText="From now on, let’s choose each other — and keep choosing, every day.";
-document.querySelector(".container").appendChild(line);
+/* emotional pause */
+setTimeout(()=>{
+    const line=document.createElement("div");
+    line.className="final-line";
+    line.innerText="From now on, let’s choose each other, and keep choosing, every day.";
+    document.querySelector(".container").appendChild(line);
+},2000);
 }
 
 showMemory();
